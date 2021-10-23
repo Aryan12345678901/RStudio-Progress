@@ -1,0 +1,15 @@
+//To Create a Vector
+  Vector Name = c(Vector Data)
+
+//To include the column names or the heading use this
+  days= c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
+  names(Vector Name) = days
+  Vector Name
+  
+//To calculate the sum
+  sum(Vector Name) = Vector_Sum_
+  
+//Selecting specific variable in a vector
+  VectorName[1:x] = NewSpecificVariable 
+  
+  
