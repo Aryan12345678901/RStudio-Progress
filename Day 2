@@ -21,3 +21,11 @@ NewVectorName = VectorName[selectionVector]
 
 //Making Matrices
 Matrix(ValueStart:ValueEnd, byrow = TRUE/FALSE, nrow/column = x) = NameofMatrix
+
+//adding Column Names
+ColumnNames = c(a,b)
+colnames(Matrix) = ColumnNames
+
+//adding Row Names
+RowNames = c(c,d)
+Rownames(Matrix) = RowNames
