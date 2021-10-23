@@ -12,4 +12,12 @@
 //Selecting specific variable in a vector
   VectorName[1:x] = NewSpecificVariable 
   
+//Calculating Average
+  mean(VectorName)
   
+//Making new Vecotrs by seleting old vectors on a certain criteria
+Selection Vector = c((VectorName)>0)
+NewVectorName = VectorName[selectionVector]
+
+//Making Matrices
+Matrix(ValueStart:ValueEnd, byrow = TRUE/FALSE, nrow/column = x) = NameofMatrix
