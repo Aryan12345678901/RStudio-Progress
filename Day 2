@@ -29,3 +29,13 @@ colnames(Matrix) = ColumnNames
 //adding Row Names
 RowNames = c(c,d)
 Rownames(Matrix) = RowNames
+
+//Selecting specific numbers in Matrix
+Matrix[Row,Column}
+
+//Selecting entire column in Matrix
+Matrix[,Column
+
+//Selecting entire row in Matrix
+Matrix[Row,]
+
