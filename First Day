@@ -1,0 +1,25 @@
+is.character(yes)
+Error: object 'yes' not found
+> is.character("yes")
+[1] TRUE
+> Letter1= 4
+> Letter2= 3
+> Character1= as.character(Letter1)
+> Character2= as.character(Letter2)
+> is.character(Character1)
+[1] TRUE
+> print(class(Letter1))
+[1] "numeric"
+> print(class(Character1))
+[1] "character"
+> print(Character1)
+[1] "4"
+> save.image()
+> v=c(10:1500, decreasing = TRUE)
+> v=c(10:12, decreasing = TRUE)
+> v=sort(c(10:12), decreasing = TRUE)
+> print(v)
+[1] 12 11 10
+> 
+
+//things I understood
