@@ -16,26 +16,28 @@
   mean(VectorName)
   
 //Making new Vecotrs by seleting old vectors on a certain criteria
-Selection Vector = c((VectorName)>0)
-NewVectorName = VectorName[selectionVector]
+  Selection Vector = c((VectorName)>0)
+  NewVectorName = VectorName[selectionVector]
 
 //Making Matrices
-Matrix(ValueStart:ValueEnd, byrow = TRUE/FALSE, nrow/column = x) = NameofMatrix
+  Matrix(ValueStart:ValueEnd, byrow = TRUE/FALSE, nrow/column = x) = NameofMatrix
 
 //adding Column Names
-ColumnNames = c(a,b)
-colnames(Matrix) = ColumnNames
+  ColumnNames = c(a,b)
+  colnames(Matrix) = ColumnNames
 
 //adding Row Names
-RowNames = c(c,d)
-Rownames(Matrix) = RowNames
+  RowNames = c(c,d)
+  Rownames(Matrix) = RowNames
 
 //Selecting specific numbers in Matrix
-Matrix[Row,Column}
+  Matrix[Row,Column}
 
 //Selecting entire column in Matrix
-Matrix[,Column
+  Matrix[,Column]
 
 //Selecting entire row in Matrix
 Matrix[Row,]
 
+//Seleting a multiple specific position on the matrix 
+Matrix[c(Row1, Row2), c(Column1, Column2)
