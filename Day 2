@@ -39,5 +39,5 @@
 //Selecting entire row in Matrix
 Matrix[Row,]
 
-//Seleting a multiple specific position on the matrix 
+//Seleting a multiple specific position on the matrix (FALSE and TRUE follow the same)
 Matrix[c(Row1, Row2), c(Column1, Column2)
