@@ -1,0 +1,259 @@
+#Relationship between BMI and Skin Thickness
+
+library(readr)
+data("swiss")
+library(regclass)
+## Loading required package: bestglm
+## Loading required package: leaps
+## Loading required package: VGAM
+## Loading required package: stats4
+## Loading required package: splines
+## Loading required package: rpart
+## Loading required package: randomForest
+## randomForest 4.7-1
+## Type rfNews() to see new features/changes/bug fixes.
+## Important regclass change from 1.3:
+## All functions that had a . in the name now have an _
+## all.correlations -> all_correlations, cor.demo -> cor_demo, etc.
+associate(Fertility~Agriculture, data = swiss, permutations = 4000)
+## Association between Agriculture (numerical) and  Fertility (numerical)
+##  using 47 complete cases
+
+
+## Permutation procedure:
+##                                 Value Estimated p-value
+## Pearson's r                 0.3530792            0.0155
+## Spearman's rank correlation 0.2426643            0.1015
+## With 4000 permutations, we are 95% confident that:
+##  the p-value of Pearson's correlation (r) is between 0.012 and 0.02 
+##  the p-value of Spearman's rank correlation is between 0.092 and 0.111 
+## Note:  If 0.05 is in this range, increase the permutations= argument.
+## 
+## 
+## 
+## Advice: If stream of points is well described by an ellipse, use Pearson's r.
+## Otherwise, as long as stream is monotonic, use Spearman's rank correlation
+## or try logs, e.g. associate( log10(y)~log10(x) )
+X<-lm(Fertility~Agriculture, data = swiss)
+plot(Fertility~Agriculture, data = swiss)
+abline(X)
+
+
+summary(X)
+## 
+## Call:
+## lm(formula = Fertility ~ Agriculture, data = swiss)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -25.5374  -7.8685  -0.6362   9.0464  24.4858 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept) 60.30438    4.25126  14.185   <2e-16 ***
+## Agriculture  0.19420    0.07671   2.532   0.0149 *  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 11.82 on 45 degrees of freedom
+## Multiple R-squared:  0.1247, Adjusted R-squared:  0.1052 
+## F-statistic: 6.409 on 1 and 45 DF,  p-value: 0.01492
+confint(X,X = 0.95)
+##                   2.5 %     97.5 %
+## (Intercept) 51.74190689 68.8668436
+## Agriculture  0.03969634  0.3487072
+all_correlations(swiss,interest = "Fertility", sorted = "strength")
+##        var1             var2 correlation         pval
+## 1 Fertility        Education  -0.6637889 3.658617e-07
+## 2 Fertility      Examination  -0.6458827 9.450437e-07
+## 3 Fertility      Agriculture   0.3530792 1.491720e-02
+## 4 Fertility Infant.Mortality   0.4165560 3.585238e-03
+## 5 Fertility         Catholic   0.4636847 1.028523e-03
+#Relationship between BMI and BloodPressure
+
+associate(Fertility~Education, data = swiss, permutations = 2000)
+## Association between Education (numerical) and  Fertility (numerical)
+##  using 47 complete cases
+
+
+## Permutation procedure:
+##                                  Value Estimated p-value
+## Pearson's r                 -0.6637889             0.000
+## Spearman's rank correlation -0.4432577             0.002
+## With 2000 permutations, we are 95% confident that:
+##  the p-value of Pearson's correlation (r) is between 0 and 0.002 
+##  the p-value of Spearman's rank correlation is between 0.001 and 0.005 
+## Note:  If 0.05 is in this range, increase the permutations= argument.
+## 
+## 
+## 
+## Advice: If stream of points is well described by an ellipse, use Pearson's r.
+## Otherwise, as long as stream is monotonic, use Spearman's rank correlation
+## or try logs, e.g. associate( log10(y)~log10(x) )
+X<-lm(Fertility~Education, data = swiss)
+plot(Fertility~Education, data = swiss)
+abline(X)
+
+
+summary(X)
+## 
+## Call:
+## lm(formula = Fertility ~ Education, data = swiss)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -17.036  -6.711  -1.011   9.526  19.689 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  79.6101     2.1041  37.836  < 2e-16 ***
+## Education    -0.8624     0.1448  -5.954 3.66e-07 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 9.446 on 45 degrees of freedom
+## Multiple R-squared:  0.4406, Adjusted R-squared:  0.4282 
+## F-statistic: 35.45 on 1 and 45 DF,  p-value: 3.659e-07
+confint(X,X = 0.95)
+##                 2.5 %     97.5 %
+## (Intercept) 75.372189 83.8479277
+## Education   -1.154083 -0.5706181
+#Relationship between BMI and Glucose
+
+associate(Fertility~Catholic, data = swiss, permutations = 2000)
+## Association between Catholic (numerical) and  Fertility (numerical)
+##  using 47 complete cases
+
+
+## Permutation procedure:
+##                                 Value Estimated p-value
+## Pearson's r                 0.4636847             0.000
+## Spearman's rank correlation 0.4136456             0.004
+## With 2000 permutations, we are 95% confident that:
+##  the p-value of Pearson's correlation (r) is between 0 and 0.002 
+##  the p-value of Spearman's rank correlation is between 0.002 and 0.008 
+## Note:  If 0.05 is in this range, increase the permutations= argument.
+## 
+## 
+## 
+## Advice: If stream of points is well described by an ellipse, use Pearson's r.
+## Otherwise, as long as stream is monotonic, use Spearman's rank correlation
+## or try logs, e.g. associate( log10(y)~log10(x) )
+X<-lm(Fertility~Catholic, data = swiss)
+plot(Fertility~Catholic, data = swiss)
+abline(X)
+
+
+summary(X)
+## 
+## Call:
+## lm(formula = Fertility ~ Catholic, data = swiss)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -35.309  -4.060   0.511   6.851  16.682 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept) 64.42826    2.30510  27.950  < 2e-16 ***
+## Catholic     0.13889    0.03956   3.511  0.00103 ** 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 11.19 on 45 degrees of freedom
+## Multiple R-squared:  0.215,  Adjusted R-squared:  0.1976 
+## F-statistic: 12.33 on 1 and 45 DF,  p-value: 0.001029
+confint(X,X = 0.95)
+##                   2.5 %     97.5 %
+## (Intercept) 59.78556103 69.0709631
+## Catholic     0.05920667  0.2185648
+#Relationship between BMI and Pregnancies
+
+associate(Fertility~Infant.Mortality, data = swiss, permutations = 2000)
+## Association between Infant.Mortality (numerical) and  Fertility (numerical)
+##  using 47 complete cases
+
+
+## Permutation procedure:
+##                                 Value Estimated p-value
+## Pearson's r                 0.4165560            0.0060
+## Spearman's rank correlation 0.4371367            0.0045
+## With 2000 permutations, we are 95% confident that:
+##  the p-value of Pearson's correlation (r) is between 0.003 and 0.01 
+##  the p-value of Spearman's rank correlation is between 0.002 and 0.009 
+## Note:  If 0.05 is in this range, increase the permutations= argument.
+## 
+## 
+## 
+## Advice: If stream of points is well described by an ellipse, use Pearson's r.
+## Otherwise, as long as stream is monotonic, use Spearman's rank correlation
+## or try logs, e.g. associate( log10(y)~log10(x) )
+X<-lm(Fertility~Infant.Mortality, data = swiss)
+plot(Fertility~Infant.Mortality, data = swiss)
+abline(X)
+
+
+summary(X)
+## 
+## Call:
+## lm(formula = Fertility ~ Infant.Mortality, data = swiss)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -31.672  -5.687  -0.381   7.239  28.565 
+## 
+## Coefficients:
+##                  Estimate Std. Error t value Pr(>|t|)   
+## (Intercept)       34.5155    11.7113   2.947  0.00507 **
+## Infant.Mortality   1.7865     0.5812   3.074  0.00359 **
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 11.48 on 45 degrees of freedom
+## Multiple R-squared:  0.1735, Adjusted R-squared:  0.1552 
+## F-statistic: 9.448 on 1 and 45 DF,  p-value: 0.003585
+#Relationship between BMI and Age
+
+associate(Fertility~Examination, data = swiss, permutations = 2000)
+## Association between Examination (numerical) and  Fertility (numerical)
+##  using 47 complete cases
+
+
+## Permutation procedure:
+##                                  Value Estimated p-value
+## Pearson's r                 -0.6458827                 0
+## Spearman's rank correlation -0.6609030                 0
+## With 2000 permutations, we are 95% confident that:
+##  the p-value of Pearson's correlation (r) is between 0 and 0.002 
+##  the p-value of Spearman's rank correlation is between 0 and 0.002 
+## Note:  If 0.05 is in this range, increase the permutations= argument.
+## 
+## 
+## 
+## Advice: If stream of points is well described by an ellipse, use Pearson's r.
+## Otherwise, as long as stream is monotonic, use Spearman's rank correlation
+## or try logs, e.g. associate( log10(y)~log10(x) )
+X<-lm(Fertility~Examination, data = swiss)
+plot(Fertility~Examination, data = swiss)
+abline(X)
+
+
+summary(X)
+## 
+## Call:
+## lm(formula = Fertility ~ Examination, data = swiss)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -25.9375  -6.0044  -0.3393   7.9239  19.7399 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  86.8185     3.2576  26.651  < 2e-16 ***
+## Examination  -1.0113     0.1782  -5.675 9.45e-07 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 9.642 on 45 degrees of freedom
+## Multiple R-squared:  0.4172, Adjusted R-squared:  0.4042 
+## F-statistic: 32.21 on 1 and 45 DF,  p-value: 9.45e-07
