@@ -1,0 +1,54 @@
+---
+output:
+  word_document: default
+  html_document: default
+---
+```{r, echo=FALSE}
+motor <- read.table('Motorcycles.txt', sep = '\t', header = TRUE)
+```
+
+
+```{r, echo = FALSE}
+par(mfrow = c(1,2))
+plot(motor$Bore, motor$MSRP, xlab = 'Bore', ylab = 'MSRP')
+plot(factor(motor$Bore), motor$MSRP, xlab = 'Bore', ylab = 'MSRP')
+plot(motor$Wheelbase, motor$MSRP, xlab = 'Wheelbase', ylab = 'MSRP')
+plot(factor(motor$Wheelbase), motor$MSRP, xlab = 'Wheelbase', ylab = 'MSRP')
+plot(motor$Displacement, motor$MSRP, xlab = 'Displacement', ylab = 'MSRP')
+plot(factor(motor$Displacement), motor$MSRP, xlab = 'Displacement', ylab = 'MSRP')
+plot(motor$Clearance, motor$MSRP, xlab = 'Clearance', ylab = 'MSRP')
+plot(factor(motor$Clearance), motor$MSRP, xlab = 'Clearance', ylab = 'MSRP')
+```
+## Question 2 The Fitted Model is MSRP = 423.025 + 6.722(Displacement) + 38.915(Bore). The R^2 for the model is 75.66% and the adjusted R^2 is 75.12%. This means that 75.66% of variation in the model can be accounted by the two variables. The Displacement coefficient means that , holding all other values the same, if Displacement rises by one cubic inch then the Price increases by $6.772. The Bore coefficient means that, holding all other values the same, if the Bore in the motorcycle rises by one inches then the Price increases by $38.915.
+
+## Question 3 This model satisfies all the assumptions of a multiple linear regression model. It the residual plot shows an equal spread across the line, which satisfies the Equal Variance Assumption. As there are no are no bends which satisfied the Linearity Assumption. For normality Assumption as the histogram immodial and mostly symmetrical. The QQ plot doesn't have a lot of outlier nor a lot of skewness. Also there are 93 data points, which is a lot. All of this points to the fact that Normality Assumption is satisfied. For Independence Assumption, there is no way to be sure, but as each of the data points are independent of other data points, we can be mostly sure that Independece Assumption is satisfied.
+
+##Question 4. This model is stastically significant significant. Using the F test is 139.9, while the p value is <2.2e-16. Considering we use the standard a = 0.05, we can see that the F-critical value is 3.09. As the F test is greater than the F critcal value, it means that the test is statistically significant. If we use the 5% significance level the Displacement is making significant contribution to the MSRP given the other variables. This is because the p value of Displacement is less than 0.05, while for Bore the p value is larger then 0.05. As Displacement caan reject the null theory, while Bore can't, we can conclude that only Displacement makes a significant contribution to MSRP given other variables.
+```{r, echo = FALSE}
+regression <- lm(MSRP ~ (Displacement)+(Bore), data = motor)
+plot(regression$fitted.values, regression$residuals, xlab = 'Fitted Values', ylab = 'Residuals')
+abline(0,0)
+summary(regression)
+par(mfrow = c(1,2))
+hist(regression$residuals)
+qqnorm(regression$residuals)
+qqline(regression$residuals)
+```
+
+## We can add Wheelbase and Clearance as predictors in the new regression model to calculate MSRP. So the predictors in this model are Wheelbase,Clearance,Displacement and Bore. The new Fitted model is MSRP = 7.786(Displacement) + 4.889(Bore) + 9.996(Wheelbase) + 299.343(Clearance). The new R^2 is 89.47% and the adjusted R^2 is 88.99%. The p value is < 2.2e-16, while the F test value is 187. All these point to the model being statisitcally signifant and better at predicting y variables. The model  satisifies all the assumptions a well.It the residual plot shows an equal spread across the line, which satisfies the Equal Variance Assumption. As there are no are no bends which satisfied the Linearity Assumption. For normality Assumption as the histogram immodial and mostly symmetrical. The QQ plot doesn't have a lot of outlier nor a lot of skewness All of this points to the fact that Normality Assumption is satisfied.Using 5% significance level, we can see that Displacement and Bore make statistically significant contribution assuming all other predicotrs are the same, because their p value is less than 0.05.  The Displacement coefficient means that , holding all other values the same, if Displacement rises by one cubic inch then the Price increases by $7.786. The Bore coefficient means that, holding all other values the same, if the Bore in the motorcycle rises by one inches then the Price increases by $4.889. The Wheelbase coefficient means that , holding all other values the same, if Wheelbase rises by one inch then the Price increases by $9.996. The Clearance coefficient means that, holding all other values the same, if the Clearance in the motorcycle rises by one inches then the Price increases by $299.343.
+```{r, echo=FALSE}
+par(mfrow = c(1,2))
+regression2 <- lm(MSRP ~ (Displacement)+(Bore) + (Wheelbase) + (Clearance), data = motor)
+par(mfrow = c(1,2))
+plot(regression2$fitted.values, regression2$residuals, xlab = 'Fitted Values', ylab = 'Residuals')
+abline(0,0)
+summary(regression2)
+par(mfrow = c(1,2))
+hist(regression2$residuals)
+qqnorm(regression2$residuals)
+qqline(regression2$residuals)
+```
+
+
+
+

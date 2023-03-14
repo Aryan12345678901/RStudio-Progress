@@ -1,0 +1,78 @@
+---
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r, echo=TRUE}
+pizza <- read.table('Pizza_Ratings.txt', sep = '\t', header = TRUE)
+```
+
+
+## this means that if the pizza type if cheese pizza use the whole equation, or else for peeproni sont' use the wholething.
+```{r, echo = TRUE}
+regression1 = lm(Score ~ Calories + Fat + Type, data = pizza)
+summary(regression1)
+```
+
+```{r, echo = TRUE}
+par(mfrow = c(1,2))
+plot(regression1$fitted.values, regression1$residuals)
+abline(0,0)
+regression1_standard_res <- rstandard(regression1)
+hist(regression1_standard_res)
+regression1_leverage = hatvalues(regression1)
+hist(regression1_leverage)
+
+pizza$residuals <- regression1$residuals
+pizza$standardized_regression <- regression1_standard_res
+pizza$leverage <- hatvalues(regression1)
+pizza[which(abs(regression1_standard_res) > 2),]
+pizza[which(regression1_leverage > 2*mean(regression1_leverage)),]
+
+```
+
+
+
+## Cook's distance
+
+```{r, echo=TRUE}
+regression1_Cooks_distance = cooks.distance(regression1)
+hist(regression1_Cooks_distance)
+boxplot(regression1_Cooks_distance)
+pizza$Cooks <- regression1_Cooks_distance
+
+pizza[which(abs(regression1_Cooks_distance) > 0.20),]
+pizza_removed = pizza[-c(12,16,29),]
+
+regression2 = lm(Score ~ Calories + Fat + Type, data = pizza_removed)
+summary(regression2)
+
+par(mfrow = c(1,2))
+plot(regression1$fitted.values, regression1$residuals)
+abline(0,0)
+hist(regression2$residuals, main = '', xlab = 'Residual')
+qqnorm(regression2$residuals)
+qqline(regression2$residuals)
+
+
+
+```
+
+
+
+
+##The test is statistically significant, as both correlation’s p values are smaller than 0.05. The SSE model shows that the reduction is also larger than what happens by chance, confirming that the regression is statistically significant. The Spearmen correlation would be better because there is a lot of heteroscedasticities. The graph shows a weak correlation between Fertility~Infant Mortality. The data reveals that 17.35% of the variability observed in the Fertility rate can be attributed to the Fertility and Infant Mortality Model. The Intercept in the graph is 34.5155, and the slope is 1.7865, meaning for each time that Infant Mortality rises by 1, Fertility rises by 1.7865. The model shows that an increase in Infant Mortality correlates with an increase in Fertility.                        
+```{r, echo = TRUE}
+library(car)
+vif(regression2)
+```
+
+#Below, we can see that the test is statistically significant, as both correlation p values are smaller than 0.05. The SSE model is statistically significant as the reduction is larger than  what happens by chance. Spearmen correlation would be better because there are a lot of  heteroscedasticities. The data reveals that 41.72% of the variability observed in the Fertility rate can be attributed to the Fertility and Examination Model. The Intercept here is 86.8185, and the slope is 1.7865, meaning for each time that Examination increases by 1,Fertility decreases by -1.0113. The model shows that an increase in Examination correlates with a decrease in Fertility.
+```{r, echo=TRUE}
+regression3 = lm(Score ~ Calories + Fat + Type+ Cost, data = pizza)
+regression4 = lm(Score ~ Calories + Fat + Type+ Cost + Calories*Type, data = pizza)
+summary(regression3)
+summary(regression4)
+
+```

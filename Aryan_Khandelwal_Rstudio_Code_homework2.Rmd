@@ -1,0 +1,105 @@
+---
+output:
+  word_document: default
+  html_document: default
+---
+```{r, echo=FALSE}
+Frozen_Pizza <- read.table('Frozen_Pizza.txt', sep = '\t', header = TRUE)
+Frozen_Pizza$Weeknumbers<-seq(from = 1994, to = 1997, length.out = 156)
+```
+
+## Question number 1, Baltimore :Baltimore has a good fit to the linear regression model produced below. The slope here is -34956 which means that for every one dollar increase in the price, the volume falls by 34,956. Baltimore is the third most sensitive to price changes out of all the cities, as the absolute value of the slope is the third largest.
+
+## Question number 2, Baltimore Part:Baltimore here has not violated any assumption for regression. There is a linear pattern in the regression which satisfies the linearity condition. There residual plot in time order and residual plot against fitted values are completely random with no pattern which satisfies the Independence Assumption. They also have equal spread around line and the x values, which satisfies the Constant variance assumption. The QQ plot is straight enough with only a few outliers towards the end of line, but it still the normal population assumption is satisfied.
+```{r, echo = FALSE}
+
+Baltimore<-lm(Baltimore.Volume~Baltimore.Price, data = Frozen_Pizza)
+Baltimore
+plot(Baltimore.Volume~Baltimore.Price, data = Frozen_Pizza)
+abline(Baltimore, data = Frozen_Pizza)
+summary(Baltimore, data = Frozen_Pizza)
+resBaltimore <- resid(Baltimore)
+plot(fitted(Baltimore),resBaltimore)
+abline(0,0)
+plot(Frozen_Pizza$Weeknumbers, Baltimore$residuals, xlab = 'Baltimore Time', ylab = 'Baltimore Residual')
+abline(0,0)
+qqnorm(Baltimore$residuals)
+qqline(Baltimore$residuals)
+
+```
+
+##Question number 1 DallasDallas has a good fit to the linear regression model produced below. The slope here is -33527 which means that for every one dollar increase in the price, the volume falls by 33,527.
+
+##Question number 2 DallasDallas here has not violated any assumption for regression. There is a linear pattern in the regression which satisfies the linearity condition. There residual plot in time order and residual plot against fitted values are completely random with no pattern which satisfies the Independence Assumption. They also have equal spread around line and the x values, which satisfies the Constant variance assumption. The QQ plot is straight enough with only a few outliers towards the end of line, but it still the normal population assumption is satisfied.
+
+##Question number 3 DallasWith the 90% confidence interval, we are 90% confident that as the price of frozen pizza increases by 1 dollar, then the sales are decrease by between -40655.79 and -26398.58. To see if this test is statistically significant we have to look at the t value. The t value here is -7.783 and the critical value with t distribution is around 1.984. As the absolute value of t-value is greater than the critical value of t distribution, we can say that there is a stastically significant linear relationship, because of the rejection  of the null hypothesis.
+
+## Question number 4 DallasThe t statistics of the slope is -7.783. The critical t value for this is 1.671. As the the t value is bigger than the t stat of slope, we can reject the null hypothesis. As such we can conclude that the slope of regession is less than zero and thus price and sales have a signficiant negative correlation.
+
+## Question number 5 DallasThe estimated mean Sales for $2.50 is 55729.47. The confident interval are (54333.64,  57125.3) . We are 95% confident that mean sales for a price of $2.50 will be betweeen 54333.64 and 57125.3 .The estimated mean Sales for $3.00 is 38965.87. The confident interval are (36032.72, 41899.03) . We are 95% confident that mean sales for a price of $3.00 will be betweeen 36032.72 and 41899.03. We cannot estimate the mean sales of price of $3.50 because $3.50 is outside of our Dallas price range. As it is outside of our range, predicting it is not possible.
+
+## Question number 6 DallasFor an increase in price in the following week to $2.77 the predicted sales will be 46677.13.  We are 95% confident that mean sales for a price of $3.00 will be betweeen 32748.93  and 60605.32. I do think that the predicted sales is useful, becuase the price for which we are predicting fall in between the price dataset we have been given. Also the resulting volumes are within the observed range of the volumes in Dallas which makes the prediction of sales like these possible.
+```{r, echo = FALSE}
+Dallas<-lm(Dallas.Volume~Dallas.Price, data = Frozen_Pizza)
+Dallas
+plot(Dallas.Volume~Dallas.Price, data = Frozen_Pizza)
+abline(Dallas, data = Frozen_Pizza)
+summary(Dallas, data = Frozen_Pizza)
+par(mfrow = c(1, 2))
+plot(Dallas$fitted.values, Dallas$residuals, xlab = 'Dallas Fitted value', ylab = 'Dallas Residual')
+abline(0,0)
+plot(Frozen_Pizza$Weeknumbers, Dallas$residuals, xlab = 'Dallas Time', ylab = 'Dallas Residual')
+abline(0,0)
+qqnorm(Dallas$residuals)
+qqline(Dallas$residuals)
+confint(Dallas, level= 0.90)
+summary(Dallas)$coefficients
+range(Frozen_Pizza$Dallas.Price)
+newDallas250<- data.frame(Dallas.Price = c(2.50))
+predict(Dallas, newdata = newDallas250, interval = 'confidence', level = 0.90)
+newDallas300<- data.frame(Dallas.Price = c(3.00))
+predict(Dallas, newdata = newDallas300, interval = 'confidence', level = 0.90)
+newDallas277<- data.frame(Dallas.Price = c(2.77))
+predict(Dallas, newdata = newDallas277, interval = 'prediction', level = 0.90)
+```
+
+
+## Question number 1, Chicago :Chicago has a good fit to the linear regression model produced below. The slope here is -331152 which means that for every one dollar increase in the price, the volume falls by 331,152. Chicago is the most sensitive to price changes out of all the cities, as the absolute value of the slope is the largest. Chicago is the least sensitive to price changes out of all the cities, as the absolute value of the slope is the smallest.
+
+## Question number 2, Chicago:Chicago here has not violated any assumption for regression. There is a linear pattern in the regression which satisfies the linearity condition. There residual plot in time order and residual plot against fitted values are completely random with no pattern which satisfies the Independence Assumption. They also have equal spread around line and the x values, which satisfies the Constant variance assumption. The QQ plot is straight enough with only a few outliers towards the end of line, but it still the normal population assumption is satisfied.
+
+```{r, echo=FALSE}
+Chicago<-lm(Chicago.Volume~Chicago.Price, data = Frozen_Pizza)
+Chicago
+plot(Chicago.Volume~Chicago.Price, data = Frozen_Pizza)
+abline(Chicago, data = Frozen_Pizza)
+summary(Chicago, data = Frozen_Pizza)
+par(mfrow = c(1, 2))
+plot(Chicago$fitted.values, Chicago$residuals, xlab = 'Chicago Fitted value', ylab = 'Chicago Residual')
+abline(0,0)
+plot(Frozen_Pizza$Weeknumbers, Chicago$residuals, xlab = 'Chicago Time', ylab = 'Chicago Residual')
+abline(0,0)
+qqnorm(Chicago$residuals)
+qqline(Chicago$residuals)
+```
+
+
+
+
+## Question number 1, Denver :Denver has a good fit to the linear regression model produced below. The slope here is -52796 which means that for every one dollar increase in the price, the volume falls by 52,796. Denver is the second most sensitive to price changes out of all the cities, as the absolute value of the slope is the second largest.
+
+## Question number 2, Denver:Denver here has not violated any assumption for regression. There is a linear pattern in the regression which satisfies the linearity condition. There residual plot in time order and residual plot against fitted values are completely random with no pattern which satisfies the Independence Assumption. They also have equal spread around line and the x values, which satisfies the Constant variance assumption. The QQ plot is straight enough with only a few outliers towards the end of line, but it still the normal population assumption is satisfied.
+```{r, echo=FALSE}
+Denver<-lm(Denver.Volume~Denver.Price, data = Frozen_Pizza)
+Denver
+plot(Denver.Volume~Denver.Price, data = Frozen_Pizza)
+abline(Denver, data = Frozen_Pizza)
+summary(Denver, data = Frozen_Pizza)
+par(mfrow = c(1, 2))
+plot(Denver$fitted.values, Denver$residuals, xlab = 'Denver Fitted value', ylab = 'Denver Residual')
+abline(0,0)
+plot(Frozen_Pizza$Weeknumbers, Denver$residuals, xlab = 'Denver Time', ylab = 'Denver Residual')
+abline(0,0)
+qqnorm(Denver$residuals)
+qqline(Denver$residuals)
+```

@@ -1,0 +1,67 @@
+---
+output:
+  word_document: default
+  html_document: default
+---
+```{r, echo=FALSE}
+Cost_of_Living <- read.table('Cost_of_Living_2013.txt', sep = '\t', header = TRUE)
+
+```
+
+### As seen by the scatterplot below between Cost of Living and Rent, the direction is positive, the strength is moderate, and the form is straight. The correlation coefficient for this graph is 0.7722926. As the cost of Living and Rent are monetary cost measured relative to  New York City, they are quantitative, satisfying the Quantitative Variable condition. As the relationship is in a straight line, it satisfies the linearity condition. Furthermore, there aren't any major outliers, the correlation satisfies the Outlier condition. As all three conditions are satisfied, the correlation is valid. The y-intercept is 45.233, the x-intercept is 1.025. This means that if everything was changed relative to New York, then rent rising by 1% correlates to an increase in the cost of living by 1.025%.
+```{r, echo = FALSE}
+Cost.of.Living.Index_Rent.Index<-lm(Cost.of.Living.Index~Rent.Index, data = Cost_of_Living)
+Cost.of.Living.Index_Rent.Index
+a <- plot(Cost.of.Living.Index~Rent.Index, data = Cost_of_Living)
+plot(Cost.of.Living.Index~Rent.Index, data = Cost_of_Living)
+abline(Cost.of.Living.Index_Rent.Index)
+summary(Cost.of.Living.Index_Rent.Index)
+cor(Cost_of_Living$Rent.Index,Cost_of_Living$Cost.of.Living.Index )
+```
+
+##As seen by the scatterplot below between Cost of Living and Restaurant Price, the direction is positive, the strength is strong and the form is straight. The correlation coefficient for this graph is 0.9493554. As the cost of Living and Restaurant Price are monetary costs measured relative to New York City, they are quantitative, and thus satisfy the Quantitative Variable condition. As the relationship is in a straight line, it satisfies the linearity condition. Furthermore, there aren't any major outliers, the correlation satisfies the Outlier condition. As all three conditions are satisfied, the correlation is valid. The y-intercept is 24.6636, the x-intercept is 0.8033. This means that if everything was changed relative to New York, then rent rising by 1% correlates with an increase in the cost of living by 0.8033%..
+```{r, echo = FALSE}
+Cost.of.Living.Index_Groceries.Index<-lm(Cost.of.Living.Index~Groceries.Index, data = Cost_of_Living)
+Cost.of.Living.Index_Groceries.Index
+plot(Cost.of.Living.Index~Groceries.Index, data = Cost_of_Living)
+plot(Cost.of.Living.Index~Groceries.Index, data = Cost_of_Living)
+abline(Cost.of.Living.Index_Groceries.Index)
+summary(Cost.of.Living.Index_Groceries.Index)
+cor(Cost_of_Living$Groceries.Index,Cost_of_Living$Cost.of.Living.Index )
+```
+```{r, echo = FALSE}
+plot(Cost.of.Living.Index~Groceries.Index, data = Cost_of_Living)
+```
+
+
+
+
+##As seen by the scatterplot below between Cost of Living and Restaurant Price, the direction is positive, the strength is strong, and the form is straight. The correlation coefficient for this graph is 0.9493554. As the cost of Living and Restaurant Price are monetary costs measured relative to New York City, they are quantitative, and thus satisfy the Quantitative Variable condition. As the relationship is in a straight line, it satisfies the linearity condition. Furthermore, there aren't any major outliers, the correlation satisfies the Outlier condition. As all three conditions are satisfied, the correlation is valid. The y-intercept is 24.6636, the x-intercept is 0.8033. This means that if everything was changed relative to New York, then rent rising by 1% correlates with an increase in the cost of living by 0.8033%.
+```{r, echo=FALSE}
+Cost.of.Living.Index_Restaurant.Price.Index<-lm(Cost.of.Living.Index~Restaurant.Price.Index, data = Cost_of_Living)
+Cost.of.Living.Index_Restaurant.Price.Index
+plot(Cost.of.Living.Index~Restaurant.Price.Index, data = Cost_of_Living)
+plot(Cost.of.Living.Index~Restaurant.Price.Index, data = Cost_of_Living)
+abline(Cost.of.Living.Index_Restaurant.Price.Index)
+summary(Cost.of.Living.Index_Restaurant.Price.Index)
+cor(Cost_of_Living$Restaurant.Price.Index,Cost_of_Living$Cost.of.Living.Index )
+```
+
+
+
+
+##As seen by the scatterplot below between Cost of Living and Local Purchasing power, the direction is positive, strength is weak, and the form is straight. The correlation coefficient for this graph is 0.525902. As the cost of Living and Local Purchasing power are monetary costs and monetary currency value measured relative to New York City, they are quantitative, and thus satisfy the Quantitative Variable condition. As the relationship is in a straight line, it satisfies the linearity condition. Furthermore, there aren't any major outliers, the correlation satisfies the Outlier condition. As all three conditions are satisfied, the correlation is valid. The y-intercept is 48.9974, the x-intercept is 0.3762. This means that if everything was changed relative to New York, then an increase in Local Purchasing power by 1% correlates to an increase in the cost of living by 0.3762%.            
+```{r, echo=FALSE}
+Cost.of.Living.Index_Local.Purchasing.Power.Index<-lm(Cost.of.Living.Index~Local.Purchasing.Power.Index, data = Cost_of_Living)
+Cost.of.Living.Index_Local.Purchasing.Power.Index
+plot(Cost.of.Living.Index~Local.Purchasing.Power.Index, data = Cost_of_Living)
+plot(Cost.of.Living.Index~Local.Purchasing.Power.Index, data = Cost_of_Living)
+abline(Cost.of.Living.Index_Local.Purchasing.Power.Index)
+summary(Cost.of.Living.Index_Local.Purchasing.Power.Index)
+cor(Cost_of_Living$Local.Purchasing.Power.Index,Cost_of_Living$Cost.of.Living.Index )
+```
+
+## 6.
+```{r, echo=FALSE}
+Cost_of_Living[172,]
+```

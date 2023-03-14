@@ -1,0 +1,64 @@
+---
+output:
+  word_document: default
+  html_document: default
+---
+```{r, echo=TRUE}
+library(readr)
+GDP <- read.table('GDP.txt', sep = '\t', header = TRUE)
+```
+## Making a normal plot the Normal Population Assumption is violated. The orignal plot is right skewed and thus transforming it by using a log10, is the most sutaible. Also once we transform the new histograph is not skewed in any way. Also as we see in the last graph with is made of the transformed Personal income, is more straight in the qq plot. This straightness in the qqplot satisfies the normal population assumption.
+```{r, echo = TRUE}
+
+hist(GDP$Personal.Income, xlab = "Personal Income")
+qqnorm(GDP$Personal.Income)
+qqline(GDP$Personal.Income)
+hist(log10(GDP$Personal.Income))
+qqnorm(log10(GDP$Personal.Income))
+qqline((log10(GDP$Personal.Income)))
+```
+
+## The orignal plot with Personal Income against transformed GDP is not satisfiing the linearity condition. Therefore we have to transform the GDP. Due to the shape of the graph we have to travel down in the ladder of power. The correct traansformation in this situation will use a log10. As after transforming the plot wiht log10GDP, the plot does satisfy the linearlity condition as the scatterplot has a a linear pattern.
+```{r, echo = TRUE}
+residual.plot <- lm(log10(Personal.Income)~GDP,data = GDP)
+plot(GDP$GDP,log10(GDP$Personal.Income))
+plot(residual.plot$fitted.values,residual.plot$residuals)
+
+transformed.residual.plot <- lm(log10(Personal.Income)~log10(GDP),data = GDP)
+plot((log10(GDP$GDP)),log10(GDP$Personal.Income))
+
+```
+
+
+##Question3  The equal variance assumption is satisfied in the linear regression model, because the scatterplot is spread nearly constant around the line. Also as we can see on the residual plot, the poaints are scattered around 0,  without an tedencies to be positive or negative, which also supports that the plot has equal variance.
+```{r, echo=TRUE}
+plot(transformed.residual.plot$fitted.values,transformed.residual.plot$residuals)
+abline(a=0,b=0)
+plot((log10(GDP$GDP)),log10(GDP$Personal.Income))
+abline(transformed.residual.plot)
+```
+
+
+
+## There is an outlier, which is California. It has a high leverage, but a little residual.We can see this as it very far out from the rest of the points, however removing californa from the scatterplot does not have any significant effect on the linear regression model. Thus the Califronia has little influence, but has a high leverage.
+```{r, echo=TRUE}
+plot((log10(GDP$GDP)),log10(GDP$Personal.Income))
+abline(transformed.residual.plot)
+a <-which.min(residual.plot$residuals)
+b <- GDP[a,]
+b
+a.new <- GDP[-a,]
+California.Removed <-lm(log10(Personal.Income)~log10(GDP),data = a.new)
+abline(transformed.residual.plot, col = 'red')
+abline(California.Removed, col = 'blue')
+```
+
+
+## The predicted personal income for a GDP of 300,000 is 288544.1. We are 95% confident that the predicted income is between 218840.9 and 380448.5. 95% interval = (218840.9 , 380448.5).
+```{r, echo=TRUE}
+summary(transformed.residual.plot)
+new.data.new = data.frame(GDP = 300000)
+predicted.result <- predict(transformed.residual.plot, newdata = new.data.new,interval = 'prediction', level = 0.95)
+predicted.result
+(10^predicted.result)
+```

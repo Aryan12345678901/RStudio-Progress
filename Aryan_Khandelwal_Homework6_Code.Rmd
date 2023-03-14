@@ -1,0 +1,85 @@
+---
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r, echo=TRUE}
+coffee <- read.table('Coffee_prices_2013.txt', sep = '\t', header = TRUE)
+```
+
+
+## this means that if the pizza type if cheese pizza use the whole equation, or else for peeproni sont' use the wholething.
+```{r, echo = TRUE}
+plot(coffee$time, coffee$price, xlab = "Time", ylab = "Coffee Price")
+lines(coffee$time, coffee$price)
+```
+
+```{r, echo = TRUE}
+library(TTR)
+smooth1 = SMA(coffee$price, n = 2)
+smooth2 = SMA(coffee$price, n = 8)
+
+plot(coffee$time, coffee$price, xlab = "Time", ylab = "Coffee Price", main = "Smoothing Moving Average of 2")
+lines(coffee$time, coffee$price)
+lines(coffee$time, smooth1, col = 'red')
+
+plot(coffee$time, coffee$price, xlab = "Time", ylab = "Coffee Price", main = "Smoothing Moving Average of 8")
+lines(coffee$time, coffee$price)
+lines(coffee$time, smooth2, col = 'green')
+
+```
+
+
+
+## Cook's distance
+
+```{r, echo=TRUE}
+smoothexp1 =EMA(coffee$price, ratio = 0.8, n = 1)
+smoothexp2 = EMA(coffee$price, ratio = 0.2, n = 1)
+
+plot(coffee$time, coffee$price, xlab = "Time", ylab = "Coffee Price", main = "Smoothing Expoential curve of 0.8")
+lines(coffee$time, coffee$price)
+lines(coffee$time, smoothexp1, col = 'orange')
+ 
+plot(coffee$time, coffee$price, xlab = "Time", ylab = "Coffee Price", main = "Smoothing Expoential curve of 0.2")
+lines(coffee$time, coffee$price)
+lines(coffee$time, smoothexp2, col = 'purple')
+```
+
+
+
+
+## a                       
+```{r, echo = TRUE}
+acf(coffee$price,lag.max = 5,plot = FALSE)
+
+autoregressive = ar(coffee$price, aic = FALSE, order.max = 3, demean = FALSE,
+intercept = TRUE, method = 'ols')
+autoregressive
+
+fitted.autoregressive = coffee$price - autoregressive$resid
+
+plot(coffee$time, coffee$price, xlab = "Time", ylab = "Coffee Price", main = "Autoregressive 3")
+lines(coffee$time, coffee$price)
+lines(coffee$time, fitted.autoregressive, col = 'blue')
+plot(coffee$time,autoregressive$resid, xlab = "Time", ylab = "Residual")
+abline(0,0)
+```
+
+#Below, we can see that the test is statistically significant, as both correlation p values are smaller than 0.05. The SSE model is statistically significant as the reduction is larger than  what happens by chance. Spearmen correlation would be better because there are a lot of  heteroscedasticities. The data reveals that 41.72% of the variability observed in the Fertility rate can be attributed to the Fertility and Examination Model. The Intercept here is 86.8185, and the slope is 1.7865, meaning for each time that Examination increases by 1,Fertility decreases by -1.0113. The model shows that an increase in Examination correlates with a decrease in Fertility.
+```{r, echo=TRUE}
+absolute = 138.90
+
+prediction.smooth1 = smooth1[length(smooth1)]
+prediction.smooth2 = smooth2[length(smooth2)]
+prediction.smoothexp1 = smoothexp1[length(smoothexp1)]
+prediction.smoothexp2 = smoothexp2[length(smoothexp2)]
+prediction.autoregressive = predict(autoregressive,n.ahead = 1, se.fit = FALSE)
+
+abs(absolute-prediction.smooth1)/abs(absolute)*100
+abs(absolute-prediction.smooth2)/abs(absolute)*100
+abs(absolute-prediction.smoothexp1)/abs(absolute)*100
+abs(absolute-prediction.smoothexp2)/abs(absolute)*100
+abs(absolute-prediction.autoregressive)/abs(absolute)*100
+```
