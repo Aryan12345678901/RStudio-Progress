@@ -1,0 +1,111 @@
+---
+output:
+  word_document: default
+  html_document: default
+---
+```{r, echo=FALSE}
+install.packages('forecast')
+install.packages('tidyverse')
+install.packages('ggplot2')
+install.packages('dplyr')
+library(forecast)
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+```
+
+```{r, echo = FALSE}
+# Load the data into a data frame
+df <- read.csv("train_anonimized.csv")
+
+# Convert the 'date' column to date format
+df$date <- as.Date(df$DATE, format = "%Y/%m/%d")
+df <- na.omit(df)
+
+# Group the data by name and week, and take the mean value for each group
+df_weekly <- df %>%
+  mutate(month = format(date, "%Y-%m")) %>%
+  group_by(anonimized_name, month) %>%
+  summarise(monthly_revenue_average = mean(REVENUE))
+
+# Split the data frame by unique names
+df_list_first <- split(df_weekly, df_weekly$anonimized_name)
+
+# Loop through the list of data frames
+for (i in seq_along(df_list_first)) {
+  predictions <- list()  # Set the plot title as the name of the data frame
+  plot_title <- names(df_list_first)[i]
+  
+  # Create the time series plot
+  plot_name <- ggplot(df_list_first[[i]], aes(x = week, y = REVENUE)) +
+    geom_line() +
+    labs(title = plot_title)
+  
+  # Fit an ARIMA model to the data
+  model <- auto.arima(df_list_first[[i]]$monthly_revenue_average)
+  
+  # Make a prediction for the next 12 months
+  forecast <- forecast(model, h = 12)
+  
+  # Print the forecast as a table
+  cat(paste("Forecast for", plot_title, ":\n"))
+  print(forecast)
+}
+
+```
+
+
+```{r, echo=FALSE}
+library(forecast)
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+
+# Convert the 'date' column to date format
+df$date <- as.Date(df$DATE, format = "%m/%d/%Y")
+df <- na.omit(df)
+
+# Group the data by name and month, and take the mean value for each group
+df_monthly <- df %>%
+  mutate(month = format(date, "%b %Y")) %>%
+  group_by(anonimized_name, month) %>%
+  summarise(value = mean(REVENUE))
+
+# Split the data frame by unique names
+df_list <- split(df_monthly, df_monthly$anonimized_name)
+
+# Loop through the list of data frames
+for (i in seq_along(df_list)) {
+  # Set the plot title as the name of the data frame
+  plot_title <- names(df_list)[i]
+  
+  # Create the monthly time series plot
+  plot_ts <- ggplot(df_list[[i]], aes(x = month, y = value, group = 1)) +
+    geom_line() +
+    labs(title = paste("Monthly time series plot for", plot_title))
+  
+  # Create a time series object and fit an ARIMA model
+  ts_data <- ts(df_list[[i]]$value)
+  model <- auto.arima(ts_data, seasonal = TRUE)
+  
+  # Make a prediction for the next 6 months
+  forecast <- forecast(model, h = 6)
+  
+  # Add the model's predictions for the original data to the plot
+  ts_pred <- fitted(model)
+  ts_pred_df <- data.frame(month = time(ts_pred), value = ts_pred)
+  plot_ts <- plot_ts + geom_line(data = ts_pred_df, aes(x = month, y = value), color = "red")
+  
+  # Create the future prediction plot
+  plot_fc <- autoplot(forecast, xlab = "Month", ylab = "Value") +
+    labs(title = paste("Future prediction plot for", plot_title))
+  
+  # Display both plots
+  print(plot_ts)
+  print(plot_fc)
+}
+```
+
+
+
+
